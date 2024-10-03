@@ -10,4 +10,8 @@ class Kategori extends Model
     use HasFactory;
     protected $fillable = ['kategori'];
     public $timestamps = true;
+    public function buku()
+    {
+        return $this->hasMany(Buku::class);
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Buku;
+use App\Models\Kategori;
 use Illuminate\Http\Request;
 
 class BukuController extends Controller
@@ -10,10 +11,15 @@ class BukuController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index()
     {
         $buku = Buku::all();
-        return view('buku.index', compact('buku'));
+        $kategori = Kategori::all();
+        return view('buku.index', compact('buku', 'kategori'));
     }
 
     /**
@@ -21,8 +27,8 @@ class BukuController extends Controller
      */
     public function create()
     {
-        $buku = Buku::all();
-        return view('buku.create', compact('buku'));
+        $kategori = Kategori::all();
+        return view('buku.create', compact('kategori'));
     }
 
     /**
@@ -32,22 +38,29 @@ class BukuController extends Controller
     {
         $request->validate([
             'judul' => 'required|unique:bukus,judul',
-            'kategori' => 'required',
             'penulis' => 'required',
-            'jml_hlmn' => 'required',
+            'jml_hlmn' => 'required|numeric|min:1',
             'penerbit' => 'required',
             'tgl_terbit' => 'required',
+            'cover' => 'required',
         ]);
 
         $buku = new Buku;
         $buku->judul = $request->judul;
-        $buku->kategori = $request->kategori;
+        $buku->id_kategori = $request->id_kategori;
         $buku->penulis = $request->penulis;
         $buku->jml_hlmn = $request->jml_hlmn;
         $buku->penerbit = $request->penerbit;
         $buku->tgl_terbit = $request->tgl_terbit;
-        $buku->save();
 
+        // upload image
+        if ($request->hasFile('cover')) {
+            $img = $request->file('cover');
+            $name = rand(1000, 9999) . $img->getClientOriginalName();
+            $img->move('images/buku', $name);
+            $buku->cover = $name;
+        }
+        $buku->save();
         return redirect()->route('buku.index')
             ->with('success', 'Data Berhasil Di Tambahkan!');
     }
@@ -65,8 +78,9 @@ class BukuController extends Controller
      */
     public function edit($id)
     {
-        $buku = Buku::findOrFail($id);
-        return view('buku.edit', compact('buku'));
+        $kategori = Kategori::all();
+        $buku = Buku::findOrFail(id: $id);
+        return view('buku.edit', data: compact('buku', 'kategori'));
     }
 
     /**
@@ -76,22 +90,28 @@ class BukuController extends Controller
     {
         $request->validate([
             'judul' => 'required|unique:bukus,judul',
-            'kategori' => 'required',
             'penulis' => 'required',
-            'jml_hlmn' => 'required',
+            'jml_hlmn' => 'required|numeric|min:1',
             'penerbit' => 'required',
             'tgl_terbit' => 'required',
         ]);
 
         $buku = Buku::findOrFail($id);
         $buku->judul = $request->judul;
-        $buku->kategori = $request->kategori;
+        $buku->id_kategori = $request->id_kategori;
         $buku->penulis = $request->penulis;
         $buku->jml_hlmn = $request->jml_hlmn;
         $buku->penerbit = $request->penerbit;
         $buku->tgl_terbit = $request->tgl_terbit;
-        $buku->save();
 
+        // upload image
+        if ($request->hasFile('cover')) {
+            $img = $request->file('cover');
+            $name = rand(1000, 9999) . $img->getClientOriginalName();
+            $img->move('images/buku', $name);
+            $buku->cover = $name;
+        }
+        $buku->save();
         return redirect()->route('buku.index')
             ->with('success', 'Data Berhasil Di Ubah!');
     }
@@ -101,9 +121,11 @@ class BukuController extends Controller
      */
     public function destroy($id)
     {
-        $buku = Buku::findOrFail($id);
+        $buku = Buku::findOrFail(id: $id);
+        if ($buku->cover && file_exists(public_path('images/buku/' . $buku->cover))) {
+            unlink(public_path('images/buku/' . $buku->cover));
+        }
         $buku->delete();
-
         return redirect()->route('buku.index')
             ->with('success', 'Data Berhasil Di Hapus!');
     }

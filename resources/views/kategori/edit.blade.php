@@ -12,7 +12,12 @@
                             @method('PUT')
                             <div class="mb-3">
                                 <label class="form-label"><b>Kategori Buku :</b></label>
-                                <input type="text" class="form-control" name="judul" value="{{ $kategori->kategori }}">
+                                <input type="text" class="form-control @error('kategori') is-invalid @enderror" name="judul" value="{{ $kategori->kategori }}">
+                            @error('kategori')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                             <a href="{{ url('kategori') }}" class="btn btn-outline-danger">Back</a>
                             <button type="submit" class="btn btn-outline-primary">Edit</button>

@@ -14,11 +14,12 @@ return new class extends Migration
         Schema::create('bukus', function (Blueprint $table) {
             $table->id();
             $table->string('judul');
-            $table->string('kategori');
+            $table->unsignedBigInteger('id_kategori');
             $table->string('penulis');
             $table->integer('jml_hlmn');
             $table->string('penerbit');
             $table->date('tgl_terbit');
+            $table->string('cover');
             $table->timestamps();
         });
     }

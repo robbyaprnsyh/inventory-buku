@@ -11,8 +11,13 @@
                             @csrf
                             <div class="mb-3">
                                 <label class="form-label"><b>Kategori Buku :</b></label>
-                                <input type="text" class="form-control" name="kategori" required
-                                    placeholder="Masukan Kategori Buku">
+                                <input type="text" class="form-control @error('kategori') is-invalid @enderror"
+                                    name="kategori" required placeholder="Masukan Kategori Buku">
+                                @error('kategori')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                             <a href="{{ url('kategori') }}" class="btn btn-outline-danger">Back</a>
                             <button type="submit" class="btn btn-outline-primary">Save</button>

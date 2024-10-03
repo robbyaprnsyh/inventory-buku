@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Buku extends Model
 {
     use HasFactory;
-    protected $fillable = ['judul', 'kategori', 'penulis', 'jml_hlmn', 'penerbit', 'tgl_terbit', 'thn_terbit'];
+    protected $fillable = ['judul', 'id_kategori', 'penulis', 'jml_hlmn', 'penerbit', 'tgl_terbit', 'thn_terbit', 'cover'];
     public $timestamps = true;
+    public function kategori()
+    {
+        return $this->belongsTo(Kategori::class, 'id_kategori');
+    }
 }

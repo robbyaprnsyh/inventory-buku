@@ -23,6 +23,7 @@
                                     <th scope="col">Jumlah Halaman</th>
                                     <th scope="col">Penerbit</th>
                                     <th scope="col">Tanggal Terbit</th>
+                                    <th scope="col">Cover</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -31,11 +32,15 @@
                                     <tr>
                                         <th scope="row">{{ $no++ }}</th>
                                         <td>{{ $data->judul }}</td>
-                                        <td>{{ $data->kategori }}</td>
+                                        <td>{{ $data->kategori->kategori }}</td>
                                         <td>{{ $data->penulis }}</td>
                                         <td>{{ $data->jml_hlmn }} Halaman</td>
                                         <td>{{ $data->penerbit }}</td>
                                         <td>{{ $data->tgl_terbit }}</td>
+                                        <td>
+                                            <img src="{{ asset('/images/buku/' . $data->cover) }}"
+                                                style="width:60px; height:100%;">
+                                        </td>
                                         <form action="{{ route('buku.destroy', $data->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
