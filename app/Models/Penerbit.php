@@ -9,5 +9,4 @@ class Penerbit extends Model
 {
     use HasFactory;
     protected $fillable = ['nama_penerbit', 'alamat'];
-    public $timestamps = true;
 }

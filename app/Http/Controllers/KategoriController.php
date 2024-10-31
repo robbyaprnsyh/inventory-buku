@@ -21,8 +21,7 @@ class KategoriController extends Controller
      */
     public function create()
     {
-        $kategori = Kategori::all();
-        return view('kategori.create', compact('kategori'));
+        return view('kategori.create');
     }
 
     /**

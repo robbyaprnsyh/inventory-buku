@@ -11,15 +11,10 @@ class BukuController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
     public function index()
     {
-        $buku = Buku::all();
-        $kategori = Kategori::all();
-        return view('buku.index', compact('buku', 'kategori'));
+        $buku = Buku::with("kategori")->paginate(2);
+        return view('buku.index', compact('buku'));
     }
 
     /**
@@ -89,7 +84,7 @@ class BukuController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'judul' => 'required|unique:bukus,judul',
+            'judul' => 'required',
             'penulis' => 'required',
             'jml_hlmn' => 'required|numeric|min:1',
             'penerbit' => 'required',

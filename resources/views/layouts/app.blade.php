@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,68 +8,80 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>Inventory Buku</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/x-icon" href="/icon.png">
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
-<body>
+
+<body class="bg-gray-100">
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+        <nav class="bg-white shadow">
+            <div class="container mx-auto px-24 py-3 flex justify-between items-center">
+                <a class="text-xl font-bold text-gray-800" href="{{ url('/') }}">
                     Inventory
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
+                <button class="md:hidden text-gray-800" type="button" id="navbar-toggle">
+                    <span class="material-icons">menu</span>
                 </button>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="hidden md:flex w-full justify-between">
                     <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav me-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('buku.index') }}">Buku</a>
+                    <ul class="flex space-x-4 ml-6"> <!-- Added ml-6 here -->
+                        <li>
+                            <a class="text-gray-700 hover:text-blue-500" href="{{ route('buku.index') }}">Buku</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('kategori.index') }}">Kategori</a>
+                        <li>
+                            <a class="text-gray-700 hover:text-blue-500"
+                                href="{{ route('kategori.index') }}">Kategori</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('penerbit.index') }}">Penerbit</a>
+                        <li>
+                            <a class="text-gray-700 hover:text-blue-500"
+                                href="{{ route('penerbit.index') }}">Penerbit</a>
+                        </li>
+                        <li>
+                            <a class="text-gray-700 hover:text-blue-500" href="{{ route('hobi.index') }}">Hobi</a>
                         </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ms-auto">
-                        <!-- Authentication Links -->
+                    <ul class="flex space-x-4">
                         @guest
                             @if (Route::has('login'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                <li>
+                                    <a class="text-gray-700 hover:text-blue-500"
+                                        href="{{ route('login') }}">{{ __('Login') }}</a>
                                 </li>
                             @endif
 
                             @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                <li>
+                                    <a class="text-gray-700 hover:text-blue-500"
+                                        href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
                             @endif
                         @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            <li class="relative">
+                                <a class="text-gray-700 hover:text-blue-500" href="#" id="user-menu"
+                                    aria-haspopup="true">
                                     {{ Auth::user()->name }}
                                 </a>
-
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
+                                <div id="dropdown-menu"
+                                    class="hidden absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md z-20">
+                                    <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-red-500" href="{{ route('logout') }}"
+                                        onclick="event.preventDefault();
+                                                document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
+                                        <a class="text-gray-700 hover:text-blue-500 block px-4 py-2 hover:bg-gray-100"
+                                            href="{{ route('profile.index') }}">Profile</a>
                                     </a>
-
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
@@ -84,6 +97,26 @@
             @yield('content')
         </main>
     </div>
-    {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.select-multiple').select2();
+        });
+    </script>
+    <script>
+        // Dropdown toggle functionality
+        document.getElementById('user-menu').addEventListener('click', function() {
+            document.getElementById('dropdown-menu').classList.toggle('hidden');
+        });
+
+        // Mobile menu toggle
+        document.getElementById('navbar-toggle').addEventListener('click', function() {
+            const navbarItems = document.querySelector('.md\\:flex');
+            navbarItems.classList.toggle('hidden');
+        });
+    </script>
 </body>
+
+
 </html>
