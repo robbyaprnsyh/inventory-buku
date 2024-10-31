@@ -75,12 +75,12 @@
                                 </a>
                                 <div id="dropdown-menu"
                                     class="hidden absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md z-20">
+                                    <a class="text-gray-700 hover:text-blue-500 block px-4 py-2 hover:bg-gray-100"
+                                        href="{{ route('profile.index') }}">Profile</a>
                                     <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-red-500" href="{{ route('logout') }}"
                                         onclick="event.preventDefault();
                                                 document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
-                                        <a class="text-gray-700 hover:text-blue-500 block px-4 py-2 hover:bg-gray-100"
-                                            href="{{ route('profile.index') }}">Profile</a>
                                     </a>
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf

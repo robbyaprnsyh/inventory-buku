@@ -21,7 +21,7 @@
                         <form action="{{ route('profile.store', $profile->id) }}" method="POST" enctype="multipart/form-data">
                             <div class="mb-4 flex justify-center items-center">
                                 <img src="{{ asset('images/profile/' . $profile->cover) }}" alt="{{ $profile->cover }}"
-                                    class= "w-44 h-40 rounded-3xl">
+                                    class= "w-44 h-40 rounded-full border-2">
                             </div>
 
                             <div class="mb-4">

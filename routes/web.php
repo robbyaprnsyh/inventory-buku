@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth/login');
 });
 
 Auth::routes();
@@ -64,3 +64,4 @@ Route::delete('hobi/{id}', [HobiController::class, 'destroy'])->name('hobi.destr
 
 Route::get('/password/edit/{id}', [PasswordController::class, 'edit'])->name('password.edit');
 Route::put('/password/update/{id}', [PasswordController::class, 'update'])->name('password.update');
+// Route::put('/password/update/{id}', [PasswordController::class, 'update'])->name('password.update1');

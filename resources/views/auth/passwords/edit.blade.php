@@ -60,7 +60,16 @@
                                 @enderror
                             </div>
 
-                            <div class="flex items-center justify-center">
+                            <div class="flex justify-end">
+                                @if (Route::has('password.request'))
+                                    <a class="text-sm hover:underline hover:text-red-500"
+                                        href="{{ route('password.request') }}">
+                                        {{ __('Forgot Your Password?') }}
+                                    </a>
+                                @endif
+                            </div>
+
+                            <div class="flex items-center justify-center mt-4">
                                 <button type="submit"
                                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                                     {{ __('Save') }}

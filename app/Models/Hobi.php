@@ -9,7 +9,7 @@ class Hobi extends Model
 {
     use HasFactory;
     protected $fillable = ['hobi'];
-    public function profiles()
+    public function profile()
     {
         return $this->belongsToMany(Profile::class, 'hobi_profile', 'id_profile', 'id_hobi');
     }

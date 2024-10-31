@@ -35,21 +35,17 @@
                             @enderror
                         </div>
 
-                        <div class="flex items-center mb-4">
-                            <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                            <label class="ml-2 text-sm text-gray-600" for="remember">{{ __('Remember Me') }}</label>
+                        <div class="flex justify-end">
+                            @if (Route::has('password.request'))
+                            <a class="text-sm hover:underline hover:text-red-500" href="{{ route('password.request') }}">
+                                {{ __('Forgot Your Password?') }}
+                            </a>
+                            @endif
                         </div>
-
-                        <div class="flex justify-between">
+                        <div class="flex justify-center mt-4">
                             <button type="submit" class="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600">
                                 {{ __('Login') }}
                             </button>
-
-                            @if (Route::has('password.request'))
-                                <a class="text-sm text-blue-500 hover:underline" href="{{ route('password.request') }}">
-                                    {{ __('Forgot Your Password?') }}
-                                </a>
-                            @endif
                         </div>
                     </form>
                 </div>

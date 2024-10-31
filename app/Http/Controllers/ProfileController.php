@@ -86,7 +86,7 @@ class ProfileController extends Controller
         $hobi = Hobi::all();
         $profile = Profile::findOrFail($id);
         $selectHobi = $profile->hobi->pluck('id')->toArray();
-        return view('profile.edit', compact('profile'));
+        return view('profile.edit', compact('profile', 'hobi', 'selectHobi'));
     }
 
     /**
