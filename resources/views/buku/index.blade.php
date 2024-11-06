@@ -14,8 +14,10 @@
                         <h2 class="text-lg font-semibold">Data Buku</h2>
                     </div>
                     <div class="p-4">
+                        @can('create-buku')
                         <a href="{{ route('buku.create') }}"
                             class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Add Data</a>
+                        @endcan
                         <div class="mt-4 overflow-auto">
                             <table class="min-w-full table-auto">
                                 <thead>
@@ -28,7 +30,9 @@
                                         <th class="py-3 px-4">Penerbit</th>
                                         <th class="py-3 px-4 truncate">Tanggal Terbit</th>
                                         <th class="py-3 px-4">Cover</th>
+                                        @can(['edit-buku', 'delete-buku'])
                                         <th class="py-3 px-4">Aksi</th>
+                                        @endcan
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -51,6 +55,7 @@
                                                     @csrf
                                                     @method('DELETE')
                                                     <div class="flex justify-between">
+                                                        @can('edit-buku')
                                                         <a href="{{ route('buku.edit', $data->id) }}">
                                                             <svg class="h-8 w-8 text-yellow-200 hover:text-yellow-400" viewBox="0 0 24 24"
                                                                 stroke-width="2" stroke="currentColor" fill="none"
@@ -61,6 +66,8 @@
                                                                 <line x1="16" y1="5" x2="19" y2="8" />
                                                             </svg>
                                                         </a>
+                                                        @endcan
+                                                        @can('delete-buku')
                                                         <button type="submit" onclick="return confirm('Apakah anda ingin menghapus?')">
                                                             <svg class="h-8 w-8 text-red-400 hover:text-red-600" width="24" height="24"
                                                                 viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
@@ -73,6 +80,7 @@
                                                                 <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
                                                             </svg>
                                                         </button>
+                                                        @endcan
                                                     </div>
                                                 </form>
                                             </td>

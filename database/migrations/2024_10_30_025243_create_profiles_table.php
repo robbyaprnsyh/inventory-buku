@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('id_user');
             $table->string('nama_lengkap');
-            $table->string('tgl_lahir');
+            $table->date('tgl_lahir');
             $table->string('jk');
             $table->string('alamat');
             $table->string('agama');

@@ -25,34 +25,15 @@
     <div id="app">
         <nav class="bg-white shadow">
             <div class="container mx-auto px-24 py-3 flex justify-between items-center">
-                <a class="text-xl font-bold text-gray-800" href="{{ url('/') }}">
+                <a class="text-xl font-bold text-gray-800" href="{{ url('home') }}">
                     Inventory
                 </a>
                 <button class="md:hidden text-gray-800" type="button" id="navbar-toggle">
                     <span class="material-icons">menu</span>
                 </button>
 
-                <div class="hidden md:flex w-full justify-between">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="flex space-x-4 ml-6"> <!-- Added ml-6 here -->
-                        <li>
-                            <a class="text-gray-700 hover:text-blue-500" href="{{ route('buku.index') }}">Buku</a>
-                        </li>
-                        <li>
-                            <a class="text-gray-700 hover:text-blue-500"
-                                href="{{ route('kategori.index') }}">Kategori</a>
-                        </li>
-                        <li>
-                            <a class="text-gray-700 hover:text-blue-500"
-                                href="{{ route('penerbit.index') }}">Penerbit</a>
-                        </li>
-                        <li>
-                            <a class="text-gray-700 hover:text-blue-500" href="{{ route('hobi.index') }}">Hobi</a>
-                        </li>
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="flex space-x-4">
+                <div class="hidden md:flex w-full">
+                    <ul class="flex space-x-4 ml-auto">
                         @guest
                             @if (Route::has('login'))
                                 <li>
@@ -68,16 +49,38 @@
                                 </li>
                             @endif
                         @else
+                            <ul class="flex space-x-4 justify-start items-start">
+                                @can('read-buku')
+                                <li>
+                                    <a class="text-gray-700 hover:text-blue-500" href="{{ route('buku.index') }}">Buku</a>
+                                </li>
+                                @endcan
+                                <li>
+                                    <a class="text-gray-700 hover:text-blue-500"
+                                        href="{{ route('kategori.index') }}">Kategori</a>
+                                </li>
+                                <li>
+                                    <a class="text-gray-700 hover:text-blue-500"
+                                        href="{{ route('penerbit.index') }}">Penerbit</a>
+                                </li>
+                                <li>
+                                    <a class="text-gray-700 hover:text-blue-500" href="{{ route('hobi.index') }}">Hobi</a>
+                                </li>
+                            </ul>
+
                             <li class="relative">
                                 <a class="text-gray-700 hover:text-blue-500" href="#" id="user-menu"
                                     aria-haspopup="true">
-                                    {{ Auth::user()->name }}
+                                    <b>
+                                        {{ Auth::user()->name }}
+                                    </b>
                                 </a>
                                 <div id="dropdown-menu"
                                     class="hidden absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md z-20">
                                     <a class="text-gray-700 hover:text-blue-500 block px-4 py-2 hover:bg-gray-100"
                                         href="{{ route('profile.index') }}">Profile</a>
-                                    <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-red-500" href="{{ route('logout') }}"
+                                    <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-red-500"
+                                        href="{{ route('logout') }}"
                                         onclick="event.preventDefault();
                                                 document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}

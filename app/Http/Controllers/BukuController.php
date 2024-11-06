@@ -11,6 +11,13 @@ class BukuController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function __construct()
+    {
+        $this->middleware('permission:read-buku', ['only' => ['index']]);
+        $this->middleware('permission:create-buku', ['only' => ['create', 'store']]);
+        $this->middleware('permission:edit-buku', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:delete-buku', ['only' => ['destroy']]);
+    }
     public function index()
     {
         $buku = Buku::with("kategori")->paginate(2);
